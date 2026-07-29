@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Studio Linear — Finance Dashboard</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/style.css" />
+</head>
+<body>
+
+<div class="save-bar">
+  <span class="save-status" id="saveStatus">All changes saved</span>
+  <button class="btn-save" id="saveBtn">Save changes</button>
+</div>
+
+<div class="sheet" id="sheet">
+
+  <!-- Header -->
+  <header class="dash-header">
+    <div class="logo-block">
+      <div class="logo-upload" id="logoUpload" title="Click to upload logo">
+        <img id="logoImg" src="" alt="Logo" style="display:none" />
+        <span id="logoPlaceholder" class="logo-placeholder">+ Logo</span>
+      </div>
+      <input type="file" id="logoInput" accept="image/*" hidden />
+      <h1 class="company-name" contenteditable="true" id="companyName" data-field="companyName">STUDIO LINEAR</h1>
+    </div>
+    <div class="badge" contenteditable="true" id="badge" data-field="badge">FINANCE DASHBOARD</div>
+  </header>
+  <div class="hr thick"></div>
+
+  <!-- Title block -->
+  <div class="title-block">
+    <div>
+      <h2 class="title" contenteditable="true" id="title" data-field="title">Monthly Client Invoice Update</h2>
+      <div class="month-line">
+        <span class="label">MONTH:</span>
+        <span class="accent" contenteditable="true" id="month" data-field="month">JULY 2026</span>
+      </div>
+    </div>
+    <div class="report-box">
+      <span class="label">REPORT AS OF</span>
+      <span class="accent report-date" contenteditable="true" id="reportDate" data-field="reportDate">JULY 21, 2026</span>
+    </div>
+  </div>
+
+  <!-- Stat cards -->
+  <div class="stat-cards" id="statCards">
+    <div class="stat-card">
+      <div class="stat-icon">$</div>
+      <div>
+        <div class="stat-label">TOTAL BILLED</div>
+        <div class="stat-value" id="statBilled">$0.00</div>
+      </div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-icon">✓</div>
+      <div>
+        <div class="stat-label">COLLECTED</div>
+        <div class="stat-value" id="statCollected">$0.00</div>
+        <div class="stat-sub" id="statCollectedPct">0%</div>
+      </div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-icon">⏱</div>
+      <div>
+        <div class="stat-label">OUTSTANDING</div>
+        <div class="stat-value" id="statOutstanding">$0.00</div>
+        <div class="stat-sub" id="statOutstandingPct">0%</div>
+      </div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-icon">↗</div>
+      <div>
+        <div class="stat-label">COLLECTION RATE</div>
+        <div class="stat-value" id="statRate">0%</div>
+        <div class="stat-sub" id="statRateSub">0 of 0 paid</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main grid: table + sidebar -->
+  <div class="main-grid">
+    <div class="table-wrap">
+      <table class="client-table">
+        <thead>
+          <tr>
+            <th>CLIENT</th>
+            <th>PAYMENT PLAN</th>
+            <th>INVOICE #</th>
+            <th>AMOUNT</th>
+            <th>INVOICE DATE</th>
+            <th>DUE DATE</th>
+            <th>PAYMENT DATE</th>
+            <th>STATUS</th>
+            <th class="col-remove"></th>
+          </tr>
+        </thead>
+        <tbody id="clientRows"></tbody>
+      </table>
+      <button class="btn-add-row" id="addRowBtn">+ Add client</button>
+    </div>
+
+    <aside class="sidebar">
+      <div class="panel">
+        <div class="panel-title">PAYMENT OVERVIEW</div>
+        <div class="donut-row">
+          <div class="donut" id="donut">
+            <div class="donut-center">
+              <div class="donut-pct" id="donutPct">0%</div>
+              <div class="donut-label">COLLECTION<br/>RATE</div>
+            </div>
+          </div>
+          <div class="donut-legend">
+            <div class="legend-item">
+              <span class="dot dot-red"></span>
+              <div>
+                <div class="legend-label">Collected</div>
+                <div class="legend-value" id="legendCollected">$0.00</div>
+              </div>
+            </div>
+            <div class="legend-item">
+              <span class="dot dot-gray"></span>
+              <div>
+                <div class="legend-label">Outstanding</div>
+                <div class="legend-value" id="legendOutstanding">$0.00</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel">
+        <div class="panel-title">STATUS SUMMARY</div>
+        <div class="summary-grid">
+          <div class="summary-cell">
+            <div class="summary-num" id="sumPaid">0</div>
+            <div class="summary-label">PAID</div>
+          </div>
+          <div class="summary-cell">
+            <div class="summary-num red" id="sumOverdue">0</div>
+            <div class="summary-label">OVERDUE</div>
+          </div>
+          <div class="summary-cell">
+            <div class="summary-num" id="sumAwaiting">0</div>
+            <div class="summary-label">AWAITING CONTRACT</div>
+          </div>
+          <div class="summary-cell">
+            <div class="summary-num red" id="sumOutstandingAmt">$0.00</div>
+            <div class="summary-label">OUTSTANDING</div>
+          </div>
+        </div>
+      </div>
+    </aside>
+  </div>
+
+  <div class="hr"></div>
+  <footer class="dash-footer" contenteditable="true" id="tagline" data-field="tagline">
+    CLEAR PROCESS. STRONG PARTNERSHIPS. THOUGHTFUL DESIGN.
+  </footer>
+</div>
+
+<template id="rowTemplate">
+  <tr class="client-row" draggable="false">
+    <td class="cell-client">
+      <span class="avatar"></span>
+      <span class="editable" contenteditable="true" data-field="name"></span>
+    </td>
+    <td class="cell-plan">
+      <span class="editable" contenteditable="true" data-field="paymentPlan"></span>
+      <div class="progress-track"><div class="progress-fill"></div></div>
+    </td>
+    <td><span class="editable" contenteditable="true" data-field="invoiceNumber"></span></td>
+    <td><span class="editable amount" contenteditable="true" data-field="amount"></span></td>
+    <td><span class="editable" contenteditable="true" data-field="invoiceDate"></span></td>
+    <td><span class="editable" contenteditable="true" data-field="dueDate"></span></td>
+    <td><span class="editable" contenteditable="true" data-field="paymentDate"></span></td>
+    <td class="cell-status">
+      <select class="status-select" data-field="status">
+        <option value="PAID">PAID</option>
+        <option value="OVERDUE">OVERDUE</option>
+        <option value="AWAITING CONTRACT">AWAITING CONTRACT</option>
+        <option value="PENDING">PENDING</option>
+      </select>
+    </td>
+    <td class="col-remove"><button class="btn-remove" title="Remove client">✕</button></td>
+  </tr>
+</template>
+
+<script src="/app.js"></script>
+</body>
+</html>

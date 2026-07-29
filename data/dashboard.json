@@ -1,0 +1,79 @@
+{
+  "header": {
+    "companyName": "STUDIO LINEAR",
+    "tagline": "CLEAR PROCESS. STRONG PARTNERSHIPS. THOUGHTFUL DESIGN.",
+    "badge": "FINANCE DASHBOARD",
+    "logoUrl": "",
+    "title": "Monthly Client Invoice Update",
+    "month": "JULY 2026",
+    "reportDate": "JULY 21, 2026"
+  },
+  "clients": [
+    {
+      "id": "c1",
+      "name": "Virgoish Beauty",
+      "paymentPlan": "7 of 8",
+      "invoiceNumber": "\u2014",
+      "amount": 1856.25,
+      "invoiceDate": "JUL 2, 2026",
+      "dueDate": "JUL 6, 2026",
+      "paymentDate": "JUL 2, 2026",
+      "status": "PAID"
+    },
+    {
+      "id": "c2",
+      "name": "Curador",
+      "paymentPlan": "2 of 12",
+      "invoiceNumber": "1997",
+      "amount": 13565.00,
+      "invoiceDate": "JUN 13, 2026",
+      "dueDate": "JUN 13, 2026",
+      "paymentDate": "JUL 20, 2026",
+      "status": "PAID"
+    },
+    {
+      "id": "c3",
+      "name": "MaryJae",
+      "paymentPlan": "1 of 4 (Retainer)",
+      "invoiceNumber": "1996",
+      "amount": 2637.50,
+      "invoiceDate": "JUN 12, 2026",
+      "dueDate": "JUL 12, 2026",
+      "paymentDate": "JUL 7, 2026",
+      "status": "PAID"
+    },
+    {
+      "id": "c4",
+      "name": "Earthly",
+      "paymentPlan": "50% Retainer",
+      "invoiceNumber": "1994",
+      "amount": 7500.00,
+      "invoiceDate": "JUN 2, 2026",
+      "dueDate": "JUL 21, 2026",
+      "paymentDate": "JUL 21, 2026",
+      "status": "PAID"
+    },
+    {
+      "id": "c5",
+      "name": "All Heart SJ",
+      "paymentPlan": "1 of 5 (Retainer)",
+      "invoiceNumber": "2003",
+      "amount": 2000.00,
+      "invoiceDate": "JUL 13, 2026",
+      "dueDate": "JUL 20, 2026",
+      "paymentDate": "JUL 21, 2026",
+      "status": "PAID"
+    },
+    {
+      "id": "c6",
+      "name": "Jardin",
+      "paymentPlan": "50% Retainer",
+      "invoiceNumber": "1993",
+      "amount": 7200.00,
+      "invoiceDate": "JUN 3, 2026",
+      "dueDate": "\u2014",
+      "paymentDate": "\u2014",
+      "status": "AWAITING CONTRACT"
+    }
+  ]
+}
