@@ -28,10 +28,37 @@ function parseProgress(planText) {
   return 0;
 }
 
+const MONTHS = ['JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN', 'JUL', 'AUG', 'SEP', 'OCT', 'NOV', 'DEC'];
+
+// Parses strings like "JUL 6, 2026" or "JULY 21, 2026". Returns a Date or null.
+function parseDateStr(str) {
+  if (!str) return null;
+  const m = String(str).trim().match(/([A-Za-z]+)\.?\s+(\d{1,2}),?\s+(\d{4})/);
+  if (!m) return null;
+  const monthIdx = MONTHS.indexOf(m[1].slice(0, 3).toUpperCase());
+  if (monthIdx === -1) return null;
+  return new Date(parseInt(m[3], 10), monthIdx, parseInt(m[2], 10));
+}
+
+// A client is overdue when unpaid and its due date is before the "report as of" date.
+function isOverdue(client) {
+  if (client.status === 'PAID') return false;
+  const due = parseDateStr(client.dueDate);
+  const asOf = parseDateStr(DATA.header.reportDate);
+  if (!due || !asOf) return false;
+  return due.getTime() < asOf.getTime();
+}
+
+// Derives the status actually shown/counted: PAID, OVERDUE, or PENDING.
+function effectiveStatus(client) {
+  if (client.status === 'PAID') return 'PAID';
+  return isOverdue(client) ? 'OVERDUE' : 'PENDING';
+}
+
 function statusClass(status) {
-  if (status === 'PAID') return '';
+  if (status === 'PAID') return 'status-paid';
   if (status === 'OVERDUE') return 'status-overdue';
-  return 'status-awaiting';
+  return 'status-pending';
 }
 
 async function loadData() {
@@ -83,11 +110,11 @@ function renderRows() {
     row.querySelector('[data-field="paymentDate"]').textContent = client.paymentDate;
 
     const select = row.querySelector('.status-select');
-    select.value = client.status;
-    select.className = 'status-select ' + statusClass(client.status);
+    const pendingOption = select.querySelector('option[value="PENDING"]');
+    refreshStatusControl(select, pendingOption, client);
     select.addEventListener('change', () => {
-      client.status = select.value;
-      select.className = 'status-select ' + statusClass(select.value);
+      client.status = select.value; // only PAID or PENDING can be picked manually
+      refreshStatusControl(select, pendingOption, client);
       markDirty();
       recompute();
     });
@@ -119,15 +146,33 @@ function renderRows() {
   });
 }
 
+function refreshStatusControl(select, pendingOption, client) {
+  const eff = effectiveStatus(client);
+  select.value = client.status === 'PAID' ? 'PAID' : 'PENDING';
+  select.className = 'status-select ' + statusClass(eff);
+  pendingOption.textContent = eff === 'OVERDUE' ? 'OVERDUE' : 'PENDING';
+}
+
 function recompute() {
   const clients = DATA.clients;
   const totalBilled = clients.reduce((s, c) => s + (Number(c.amount) || 0), 0);
   const collected = clients.filter(c => c.status === 'PAID').reduce((s, c) => s + (Number(c.amount) || 0), 0);
   const outstanding = totalBilled - collected;
   const rate = totalBilled > 0 ? (collected / totalBilled) * 100 : 0;
-  const paidCount = clients.filter(c => c.status === 'PAID').length;
-  const overdueCount = clients.filter(c => c.status === 'OVERDUE').length;
-  const awaitingCount = clients.filter(c => c.status === 'AWAITING CONTRACT' || c.status === 'PENDING').length;
+
+  const paidCount = clients.filter(c => effectiveStatus(c) === 'PAID').length;
+  const overdueCount = clients.filter(c => effectiveStatus(c) === 'OVERDUE').length;
+  const pendingCount = clients.filter(c => effectiveStatus(c) === 'PENDING').length;
+
+  // Keep every row's status control (badge + dropdown) in sync — due-date edits
+  // or a changed "report as of" date can flip a row to/from OVERDUE.
+  clients.forEach((client) => {
+    const row = document.querySelector(`tr[data-id="${client.id}"]`);
+    if (!row) return;
+    const select = row.querySelector('.status-select');
+    const pendingOption = select.querySelector('option[value="PENDING"]');
+    refreshStatusControl(select, pendingOption, client);
+  });
 
   $('statBilled').textContent = fmtMoney(totalBilled);
   $('statCollected').textContent = fmtMoney(collected);
@@ -144,7 +189,7 @@ function recompute() {
 
   $('sumPaid').textContent = paidCount;
   $('sumOverdue').textContent = overdueCount;
-  $('sumAwaiting').textContent = awaitingCount;
+  $('sumPending').textContent = pendingCount;
   $('sumOutstandingAmt').textContent = fmtMoney(outstanding);
 }
 
@@ -221,7 +266,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
   document.querySelectorAll('[data-field]').forEach((el) => {
     if (el.tagName === 'H1' || el.tagName === 'H2' || el.tagName === 'DIV' || el.tagName === 'SPAN' || el.tagName === 'FOOTER') {
-      el.addEventListener('input', markDirty);
+      el.addEventListener('input', () => {
+        markDirty();
+        // "reportDate" is the as-of date used to auto-flag overdue clients,
+        // so any header edit re-syncs the table (cheap, and keeps this simple).
+        if (DATA) {
+          DATA.header[el.dataset.field] = el.textContent.trim();
+          recompute();
+        }
+      });
     }
   });
 

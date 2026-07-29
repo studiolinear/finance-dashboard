@@ -166,12 +166,12 @@ body {
 /* ---------- Main grid ---------- */
 .main-grid {
   display: grid;
-  grid-template-columns: 1fr 300px;
+  grid-template-columns: minmax(0, 1fr) 300px;
   gap: 22px;
   align-items: start;
 }
 
-.table-wrap { border: 1px solid #e2e2e2; }
+.table-wrap { border: 1px solid #e2e2e2; min-width: 0; background: #fff; }
 
 table.client-table { width: 100%; border-collapse: collapse; font-size: 13px; }
 .client-table thead tr { background: var(--red); }
@@ -224,8 +224,9 @@ table.client-table { width: 100%; border-collapse: collapse; font-size: 13px; }
   padding: 5px 8px;
   cursor: pointer;
 }
-.status-select.status-overdue { border-color: #999; color: #666; }
-.status-select.status-awaiting { border-color: var(--red); color: var(--red); }
+.status-select.status-paid { border-color: var(--red); color: var(--red); background: #fff; }
+.status-select.status-pending { border-color: #bbb; color: #777; background: #fff; }
+.status-select.status-overdue { border-color: var(--red); color: #fff; background: var(--red); }
 
 .col-remove { width: 30px; text-align: center; }
 .btn-remove {
@@ -249,20 +250,33 @@ table.client-table { width: 100%; border-collapse: collapse; font-size: 13px; }
 .btn-add-row:hover { background: #f1f1f1; }
 
 /* ---------- Sidebar ---------- */
-.sidebar { display: flex; flex-direction: column; gap: 18px; }
-.panel { border: 1px solid #e2e2e2; padding: 18px; }
+.sidebar {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  min-width: 0; /* prevents grid children from overflowing/overlapping */
+}
+.panel {
+  position: relative;
+  background: #fff;
+  border: 1px solid #e2e2e2;
+  padding: 18px;
+  width: 100%;
+}
 .panel-title {
   font-size: 12px; font-weight: 700; letter-spacing: 0.6px; margin-bottom: 16px;
 }
 
-.donut-row { display: flex; align-items: center; gap: 16px; }
+.donut-row { display: flex; align-items: center; gap: 16px; flex-wrap: nowrap; }
 .donut {
+  position: relative;
   width: 118px; height: 118px; border-radius: 50%;
   display: flex; align-items: center; justify-content: center;
   background: conic-gradient(var(--red) 0deg, var(--gray-line) 0deg);
   flex-shrink: 0;
 }
 .donut-center {
+  position: relative;
   width: 84px; height: 84px; border-radius: 50%; background: #fff;
   display: flex; flex-direction: column; align-items: center; justify-content: center;
 }

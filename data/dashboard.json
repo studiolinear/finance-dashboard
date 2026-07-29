@@ -71,9 +71,9 @@
       "invoiceNumber": "1993",
       "amount": 7200.00,
       "invoiceDate": "JUN 3, 2026",
-      "dueDate": "\u2014",
+      "dueDate": "JUL 10, 2026",
       "paymentDate": "\u2014",
-      "status": "AWAITING CONTRACT"
+      "status": "PENDING"
     }
   ]
 }
