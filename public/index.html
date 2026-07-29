@@ -83,10 +83,12 @@
 
   <!-- Main grid: table + sidebar -->
   <div class="main-grid">
+    <div class="scroll-hint">← Swipe to see all columns →</div>
     <div class="table-wrap">
       <table class="client-table">
         <thead>
           <tr>
+            <th class="col-remove"></th>
             <th>CLIENT</th>
             <th>PAYMENT PLAN</th>
             <th>INVOICE #</th>
@@ -95,7 +97,6 @@
             <th>DUE DATE</th>
             <th>PAYMENT DATE</th>
             <th>STATUS</th>
-            <th class="col-remove"></th>
           </tr>
         </thead>
         <tbody id="clientRows"></tbody>
@@ -164,6 +165,7 @@
 
 <template id="rowTemplate">
   <tr class="client-row" draggable="false">
+    <td class="col-remove"><button class="btn-remove" title="Remove client">✕</button></td>
     <td class="cell-client">
       <span class="avatar"></span>
       <span class="editable" contenteditable="true" data-field="name"></span>
@@ -183,7 +185,6 @@
         <option value="PENDING">PENDING</option>
       </select>
     </td>
-    <td class="col-remove"><button class="btn-remove" title="Remove client">✕</button></td>
   </tr>
 </template>
 
