@@ -7,7 +7,7 @@
 <title>Finance Dashboard — Studio Linear</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Anton&family=Roboto+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
   /* ============ STUDIO LINEAR BRAND TOKENS ============ */
   :root{
@@ -19,11 +19,11 @@
     --ink:#1A1A1A;
     --pad:clamp(16px, 3vw, 48px);
     --display:'Anton', 'Oswald', Impact, sans-serif;
-    --mono:'Roboto Mono', ui-monospace, Menlo, monospace;
+    --sans:'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
   }
   *{box-sizing:border-box}
   html,body{margin:0;background:var(--paper);color:var(--red)}
-  body{font-family:var(--mono);font-size:13px;-webkit-font-smoothing:antialiased}
+  body{font-family:var(--sans);font-size:14px;font-feature-settings:'tnum' 1,'cv11' 1;-webkit-font-smoothing:antialiased}
   button{font:inherit;color:inherit;cursor:pointer}
 
   /* ============ FULL-SCREEN SHELL ============ */
@@ -40,7 +40,7 @@
   .masthead{display:flex;align-items:center;justify-content:space-between;gap:16px;
     padding:clamp(10px,1.6vh,20px) 0 clamp(8px,1.1vh,12px);border-bottom:3px solid var(--red)}
   .wordmark{font-family:var(--display);font-size:clamp(28px,2.8vw,46px);line-height:.9;letter-spacing:-.005em;text-transform:uppercase;white-space:nowrap}
-  .wordmark sup{font-family:var(--mono);font-size:.32em;vertical-align:top;margin-left:2px;position:relative;top:.15em}
+  .wordmark sup{font-family:var(--sans);font-size:.32em;vertical-align:top;margin-left:2px;position:relative;top:.15em}
   .mast-right{display:flex;align-items:center;gap:clamp(10px,1.4vw,22px)}
   .mast-label{font-weight:700;font-size:12px;letter-spacing:.18em;text-transform:uppercase}
   .emblem{height:clamp(34px,4vw,58px);width:auto;flex:none}
@@ -88,7 +88,7 @@
   tbody tr.is-overdue td{background:#FFF6F6}
   tbody tr.is-overdue td:first-child{box-shadow:inset 4px 0 0 var(--red)}
   .num{font-variant-numeric:tabular-nums}
-  .amount{font-weight:700;font-size:14px}
+  .amount{font-weight:700;font-size:14.5px}
   .dash{opacity:.45}
 
   .client{display:flex;align-items:center;gap:10px;min-width:0}
@@ -97,7 +97,7 @@
 
   .plan b{font-weight:700}
   .plan .line{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-  .plan .note{font-size:11px;opacity:.75;margin-left:6px}
+  .plan .note{font-size:12px;opacity:.75;margin-left:6px}
   .plan .note::before{content:"· ";}
   .bar{height:3px;background:var(--tint-2);margin-top:5px;max-width:200px}
   .bar i{display:block;height:100%;background:var(--red)}
